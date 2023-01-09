@@ -29,7 +29,6 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
     volumes:
-      #      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./volume/elasticsearch-volume:/usr/share/elasticsearch/data
     environment:
       - bootstrap.memory_lock=true
@@ -37,7 +36,6 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       - discovery.type=single-node
       - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
-      - ELASTIC_PASSWORD=changeme
     ulimits:
       memlock:
         hard: -1
@@ -67,10 +65,6 @@ services:
       interval: 10s
       retries: 20
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
-
-volumes:
-  esdata:
-    driver: local
 
 networks:
   elastic:
